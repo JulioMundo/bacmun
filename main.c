@@ -35,6 +35,7 @@ int concat(int num){
     return aux;
 }
 int getValue(){
+    concat(-1);  // limpieza de la concatenacion cada que se llame a unir los valores
     char tecla;
     char numbers[2];
     int count = 0, num;

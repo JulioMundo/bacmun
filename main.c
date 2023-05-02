@@ -28,11 +28,54 @@ int hora=13,min=30,seg=0;
 long a=0;
 long b=0;
 #include <string.h>
-
 int concat(int num){
     static int aux = 0;
+    if(num!=-1){
     aux =(aux * 10) + num  ;
+    }else{
+    aux=0;}
     return aux;
+}
+int getValue(){
+    char tecla;
+    char numbers[2];
+    int count = 0, num; 
+    
+    do{
+        tecla=kbd_getc();
+        
+        if(tecla!=0) {
+if(tecla!='B'){
+ numbers[count] = tecla;;
+            lcd_putc(tecla);
+            delay_ms(50);
+            count++;
+            
+                if (count == 2 && tecla!='B') {
+
+                for (int x = 0; x < sizeof(numbers); x++) {
+                    num = concat(numbers[x] - 48);
+                }
+                   lcd_putc("\f");
+                lcd_gotoxy(1, 1);
+               lcd_putc("A=ok B=back");
+                lcd_gotoxy(1, 2);
+                printf(lcd_putc, "numero:%02u", num);
+                delay_ms(50);
+            }
+}else {
+num=0;
+count=0;
+lcd_putc("\f");
+concat(-1);
+}
+
+        }
+        
+    }  while (tecla != 'A');
+    
+    
+    return  num;
 }
 void main(void)
 {
@@ -69,26 +112,7 @@ lcd_gotoxy(1,1);
 lcd_putc("1=celda 2=temp       ");
 lcd_gotoxy(1,2);
 }
-tecla=kbd_getc();
-if(tecla!=0)
-{
-contra[direccion]=tecla;;
-lcd_putc(tecla);
-delay_ms(50);
-direccion=direccion+1; 
-if(direccion==2)
-{
- int num;
-       
-    for(int x=0;x<sizeof(contra);x++){
-          num = concat(contra[x]-48);      
-          }
-lcd_putc("\f");
-lcd_gotoxy(1,2);
-printf(lcd_putc,"numero:%02u",num);
-delay_ms(5000);
-          
-switch(num)
+switch(getValue())
 {
 case 1:
                   lcd_putc("\f");
@@ -960,8 +984,13 @@ break;
 case 02:
 lcd_putc("\f");
 lcd_gotoxy(1,1);
-printf(lcd_putc,"seleccionaste temp");break;}//del switch
+printf(lcd_putc,"seleccionaste temp");break;
+default:
+lcd_putc("\f");
+lcd_gotoxy(1,1);
+printf(lcd_putc,"no existe");
+concat(-1);break;
+
+}//del switch
 }//del if condicional del con switch
 }//del if abajo del while
-}//del while
-}//del main

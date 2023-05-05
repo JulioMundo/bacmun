@@ -80,10 +80,7 @@ void main(void){
 
     //----------------Array to save data about place
     int filas=2, columnas=6;
-    int **array = (int **)malloc(filas * sizeof(int *));
-    for (int i = 0; i < filas; i++) {
-        array[i] = (int *)malloc(columnas * sizeof(int));
-    }
+    int array[filas][columnas]
     //---------------------------------------------------
 
     int direccion=0, opt=0;

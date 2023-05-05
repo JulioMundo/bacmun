@@ -69,6 +69,16 @@ int getValue(){
 
     return  num;
 }
+
+
+void notExist(){
+    lcd_putc("\f");
+    lcd_gotoxy(1,1);
+    printf(lcd_putc,"Upss! Algo esta mal");
+    delay_ms(10000);
+}
+
+
 void main(void){
 
     set_tris_a(0x00);
@@ -125,7 +135,7 @@ void main(void){
                 lcd_putc("\f");
                 lcd_gotoxy(1,1);
                 printf(lcd_putc,"editaras C%d ", opt);
-                delay_ms(1500);
+                delay_ms(1000);
                 lcd_putc("\f");
                 lcd_gotoxy(1,1);
                 printf(lcd_putc,"1=iniciarCR 2=verCR  ");
@@ -135,11 +145,11 @@ void main(void){
                     case 1:
                         lcd_putc("\f"); lcd_gotoxy(1, 1);
                         lcd_putc("puso inicio    ");
-                        delay_ms(1500);
+                        delay_ms(1000);
                         lcd_gotoxy(1, 1);
                         lcd_putc("\f");
                         lcd_putc("iniciando cronometro       ");
-                        delay_ms(1500);
+                        delay_ms(1000);
                         ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
                         ds1307_get_time(hora, min, seg);//obtiene hora actual
 
@@ -155,26 +165,26 @@ void main(void){
                         printf(lcd_putc, "fecha:%02u/%02u/20%02u", dia, mes, an);
                         lcd_gotoxy(1, 2);
                         printf(lcd_putc, "hora: %02u:%02u:%02u", hora, min, seg);
-                        delay_ms(2000);
+                        delay_ms(1500);
                         lcd_putc("\f");
                         break;
                     case 2:
                         lcd_putc("\f");
                         lcd_gotoxy(1, 1);
                         lcd_putc("puso ver     ");
-                        delay_ms(1500);
+                        delay_ms(1000);
                         lcd_putc("\f");
                         lcd_putc("Hora de inicio:      ");
-                        delay_ms(1500);
+                        delay_ms(1000);
                         lcd_putc("\f");
                         lcd_gotoxy(1, 1);
                         printf(lcd_putc, "fecha:%02u/%02u/20%02u", array[opt-1][0], array[opt-1][1], array[opt-1][2]);
                         lcd_gotoxy(1, 2);
                         printf(lcd_putc, "hora: %02u:%02u:%02u", array[opt-1][3],  array[opt-1][4], array[opt-1][5]);
-                        delay_ms(2000);
+                        delay_ms(1500);
                         lcd_putc("\f");
                         lcd_putc("Hora de actual:      ");
-                        delay_ms(1500);
+                        delay_ms(1000);
                         ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
                         ds1307_get_time(hora, min, seg);//obtiene hora actual
                         lcd_putc("\f");
@@ -182,14 +192,14 @@ void main(void){
                         printf(lcd_putc, "fecha:%02u/%02u/20%02u", dia, mes, an);
                         lcd_gotoxy(1, 2);
                         printf(lcd_putc, "hora: %02u:%02u:%02u", hora, min, seg);
-                        delay_ms(2000);
+                        delay_ms(1500);
                         lcd_putc("\f");
                         break;
                     case 3:
                         lcd_putc("\f");
                         lcd_gotoxy(1, 1);
                         lcd_putc("puso programar     ");
-                        delay_ms(1500);
+                        delay_ms(1000);
                         lcd_putc("\f");
                         lcd_gotoxy(1, 1);
                         lcd_putc("dia final:     ");
@@ -274,18 +284,18 @@ void main(void){
                         printf(lcd_putc, "horp: %02u:%02u:%02u", horaprogramadac1, minprogramadoc1, segprogramadoc1);
                         delay_ms(2000);
                         break;
+                    default:
+                        notExist();
                 }
             }else{
-                //no exitse este edificio
+                notExist();
             }
         }else if(opt==2){
             lcd_putc("\f");
             lcd_gotoxy(1,1);
             printf(lcd_putc,"seleccionaste temp");
         }else{
-            lcd_putc("\f");
-            lcd_gotoxy(1,1);
-            printf(lcd_putc,"no existe");
+           notExist();
         }
 
     }//del while true

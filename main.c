@@ -15,19 +15,11 @@
 #include"KBD4x4.c"
 #include<DS1307.c>
 #include <stddef.h>
-#define sgyear 31556936
-#define sgmes 2629743
-#define sgdia 86400
-#define sghora 3600
-#define sgmn 60
-#define constmk 31457299
-#define resto 67328
-#define marcatiempodefc11 (marcatiempodefc1)
+
 int dia=19, mes=04, an=23, dow=5;
 int hora=13,min=30,seg=0;
-long a=0;
-long b=0;
 #include <string.h>
+#include <stdlib.h>//array
 int concat(int num){
     static int aux = 0;
     if(num!=-1){
@@ -81,11 +73,19 @@ void main(void){
 
     set_tris_a(0x00);
     output_a(0x00);
-    int c1diainicial,c1mesinicial,c1anoinicial,c1horainicial,c1minutoinicial,c1segundoinicial,diaprogramadoc1,mesprogramadoc1,yearprogramadoc1,horaprogramadac1,minprogramadoc1, segprogramadoc1;
-    int c1diafinal,c1mesfinal,c1anofinal,c1horafinal,c1minutofinal,c1segundofinal,respuesta;
+    int diaprogramadoc1,mesprogramadoc1,yearprogramadoc1,horaprogramadac1,minprogramadoc1, segprogramadoc1;
     ds1307_set_date_time(dia,mes,an,dow,hora,min,seg);
     char tecla;
     char contra[2]; //aqui se guardan las teclas del teclado
+
+    //----------------Array to save data about place
+    int filas=2, columnas=6;
+    int **array = (int **)malloc(filas * sizeof(int *));
+    for (int i = 0; i < filas; i++) {
+        array[i] = (int *)malloc(columnas * sizeof(int));
+    }
+    //---------------------------------------------------
+
     int direccion=0, opt=0;
     lcd_init();
     kbd_init();
@@ -136,8 +136,7 @@ void main(void){
 
                 switch(getValue()) {
                     case 1:
-                        lcd_putc("\f");
-                        lcd_gotoxy(1, 1);
+                        lcd_putc("\f"); lcd_gotoxy(1, 1);
                         lcd_putc("puso inicio    ");
                         delay_ms(1500);
                         lcd_gotoxy(1, 1);
@@ -146,12 +145,14 @@ void main(void){
                         delay_ms(1500);
                         ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
                         ds1307_get_time(hora, min, seg);//obtiene hora actual
-                        c1diainicial = dia;
-                        c1mesinicial = mes;
-                        c1anoinicial = an;
-                        c1horainicial = hora;
-                        c1minutoinicial = min;
-                        c1segundoinicial = seg;
+
+                        array[opt-1][0] = dia;
+                        array[opt-1][1] = mes;
+                        array[opt-1][2] = an;
+                        array[opt-1][3] = hora;
+                        array[opt-1][4] = min;
+                        array[opt-1][5] = seg;
+
                         lcd_putc("\f");
                         lcd_gotoxy(1, 1);
                         printf(lcd_putc, "fecha:%02u/%02u/20%02u", dia, mes, an);
@@ -170,9 +171,9 @@ void main(void){
                         delay_ms(1500);
                         lcd_putc("\f");
                         lcd_gotoxy(1, 1);
-                        printf(lcd_putc, "fecha:%02u/%02u/20%02u", c1diainicial, c1mesinicial, c1anoinicial);
+                        printf(lcd_putc, "fecha:%02u/%02u/20%02u", array[opt-1][0], array[opt-1][1], array[opt-1][2]);
                         lcd_gotoxy(1, 2);
-                        printf(lcd_putc, "hora: %02u:%02u:%02u", c1horainicial, c1minutoinicial, c1segundoinicial);
+                        printf(lcd_putc, "hora: %02u:%02u:%02u", array[opt-1][3],  array[opt-1][4], array[opt-1][5]);
                         delay_ms(2000);
                         lcd_putc("\f");
                         lcd_putc("Hora de actual:      ");

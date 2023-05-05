@@ -91,10 +91,10 @@ int direccion=0;
 lcd_init();
 kbd_init();
 //a partir de aqui es el inicio 
+while(true){
 lcd_gotoxy(1,1);
 lcd_putc("1=celda 2=temp       ");
 lcd_gotoxy(1,2);
-while(true){
 ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
 ds1307_get_time(hora, min, seg);//obtiene hora actual
 if(dia==diaprogramadoc1&&mes==mesprogramadoc1&&an==yearprogramadoc1&&hora==horaprogramadac1&&min==minprogramadoc1&&seg==segprogramadoc1){
@@ -111,6 +111,9 @@ lcd_gotoxy(1,1);
 lcd_putc("1=celda 2=temp       ");
 lcd_gotoxy(1,2);
 }
+tecla=kbd_getc();
+if(tecla!=0)
+{
 switch(getValue())
 {
 case 1:
@@ -297,5 +300,6 @@ lcd_putc("estas aqui       ");
 lcd_gotoxy(1,2);
 delay_ms(1000);
 lcd_putc("\f");
+}
 }//del while true
 }//del if abajo del while

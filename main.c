@@ -80,7 +80,7 @@ void main(void){
 
     //----------------Array to save data about place
     int filas=2, columnas=6;
-    int array[filas][columnas]
+    int array[filas][columnas];
     //---------------------------------------------------
 
     int direccion=0, opt=0;

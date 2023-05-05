@@ -127,7 +127,7 @@ void main(void){
             if (opt>0 && opt<=15){
                 lcd_putc("\f");
                 lcd_gotoxy(1,1);
-                lcd_putc("editaras C1...     ");
+                printf(lcd_putc,"editaras C%d ", opt);
                 delay_ms(1500);
                 lcd_putc("\f");
                 lcd_gotoxy(1,1);

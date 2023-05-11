@@ -1,0 +1,75 @@
+#include<18F4550.H>
+#fuses HS, PLL5, USBDIV, NOWDT, CPUDIV1, NOPROTECT, NODEBUG, NOPBADEN, NOLVP, NOVREGEN, NOPUT, NOBROWNOUT//2OMHZ
+#use delay(clock=8MHz, crystal)
+//#use fast_io(A)
+#use standard_io(A)
+#define DHT11_PIN PIN_A1
+#use I2C(MASTER, SDA=PIN_B0, SCL=PIN_B1, SLOW)
+
+#define LCD_ENABLE_PIN  PIN_C0
+#define LCD_RS_PIN      PIN_C1
+#define LCD_RW_PIN      PIN_C2
+#define LCD_DATA4       PIN_B4
+#define LCD_DATA5       PIN_B5
+#define LCD_DATA6       PIN_B6
+#define LCD_DATA7       PIN_B7
+#include <lcd.c>
+#include <DHT11.c>
+#include <stdio.h>
+#include"KBD4x4.c"
+#include<DS1307.c>
+#include <stddef.h>
+#include <string.h>
+#include <stdlib.h>//array
+
+int data_ok = 0;
+float humedad, temperatura;
+
+void main()
+{
+   lcd_init();
+    lcd_gotoxy(1, 1);
+    lcd_putc("estas en a");
+    delay_ms(1500);
+     lcd_putc("\f");
+     int a;
+   a=1;
+     while(a=1){
+   
+      data_ok = DHT11_read_data(&humedad, &temperatura);
+      
+      if(data_ok == 1)
+      {
+      lcd_putc("\f");
+      lcd_gotoxy(1, 1);
+    lcd_putc("estas en b");
+    delay_ms(1500);
+     lcd_putc("\f");
+         lcd_putc("\f");
+         lcd_gotoxy(1,1);
+         printf(lcd_putc,"Hum = %0.1f%%", humedad);
+         lcd_gotoxy(1,2);
+         printf(lcd_putc,"Tem = %0.1fC", temperatura);
+      }
+      else
+      {
+       lcd_putc("\f");
+      lcd_gotoxy(1, 1);
+    lcd_putc("estas en c");
+    delay_ms(1500);
+         lcd_putc("\f");
+         lcd_gotoxy(2,1);
+         lcd_putc("No Conectado");
+      }
+      delay_ms(1400);
+       lcd_putc("\f");
+      lcd_gotoxy(1, 1);
+    lcd_putc("estas en d");
+    delay_ms(1500);
+   }
+     delay_ms(1400);
+       lcd_putc("\f");
+      lcd_gotoxy(1, 1);
+    lcd_putc("estas en e");
+    delay_ms(1500);
+}

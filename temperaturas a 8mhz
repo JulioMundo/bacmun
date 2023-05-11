@@ -1,6 +1,6 @@
 #include<18F4550.H>
-#fuses HS, PLL5, USBDIV, NOWDT, CPUDIV1, NOPROTECT, NODEBUG, NOPBADEN, NOLVP, NOVREGEN, NOPUT, NOBROWNOUT//2OMHZ
-#use delay(clock=8MHz, crystal)
+#fuses HSPLL, PLL5, USBDIV, NOWDT, CPUDIV1, NOPROTECT, NODEBUG, NOPBADEN, NOLVP, NOVREGEN, NOPUT, NOBROWNOUT//2OMHZ
+#use delay(clock=8MHz, crystal) //es necesario cambiar esta linea en el otro programa
 //#use fast_io(A)
 #use standard_io(A)
 #define DHT11_PIN PIN_A1
@@ -28,23 +28,15 @@ float humedad, temperatura;
 void main()
 {
    lcd_init();
-    lcd_gotoxy(1, 1);
-    lcd_putc("estas en a");
-    delay_ms(1500);
      lcd_putc("\f");
-     int a;
-   a=1;
-     while(a=1){
+     delay_ms(1500); //sin este tiempo de espera no jala porque no deja arrancar el lcd
+     while(true){
    
       data_ok = DHT11_read_data(&humedad, &temperatura);
       
       if(data_ok == 1)
       {
-      lcd_putc("\f");
-      lcd_gotoxy(1, 1);
-    lcd_putc("estas en b");
     delay_ms(1500);
-     lcd_putc("\f");
          lcd_putc("\f");
          lcd_gotoxy(1,1);
          printf(lcd_putc,"Hum = %0.1f%%", humedad);
@@ -53,23 +45,11 @@ void main()
       }
       else
       {
-       lcd_putc("\f");
-      lcd_gotoxy(1, 1);
-    lcd_putc("estas en c");
     delay_ms(1500);
          lcd_putc("\f");
          lcd_gotoxy(2,1);
          lcd_putc("No Conectado");
       }
       delay_ms(1400);
-       lcd_putc("\f");
-      lcd_gotoxy(1, 1);
-    lcd_putc("estas en d");
-    delay_ms(1500);
    }
-     delay_ms(1400);
-       lcd_putc("\f");
-      lcd_gotoxy(1, 1);
-    lcd_putc("estas en e");
-    delay_ms(1500);
 }

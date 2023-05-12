@@ -1,6 +1,6 @@
 #include<18F4550.H>
 #fuses HSPLL, PLL5, USBDIV, NOWDT, CPUDIV1, NOPROTECT, NODEBUG, NOPBADEN, NOLVP, NOVREGEN, NOPUT, NOBROWNOUT//2OMHZ
-#use delay(clock=48MHz)
+#use delay(clock=8MHz, crystal)
 #use fast_io(A)
 #use I2C(MASTER, SDA=PIN_B0, SCL=PIN_B1, SLOW)
 #define LCD_ENABLE_PIN  PIN_C0

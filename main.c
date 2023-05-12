@@ -384,8 +384,8 @@ void main(void){
                 lcd_gotoxy(2, 1);
                 lcd_putc("01.Iniciar");
                 data = kbd_getc();
-                
-            } while ( data == 0); 
+
+            } while ( data == 0);
 
 
         }else{

@@ -79,7 +79,7 @@ int getValue(){
 void showMessageTop(char *message){
     lcd_putc("\f");
     lcd_gotoxy(1,1);
-    printf(lcd_putc,message);
+    printf(lcd_putc,"%s", opt);
     delay_ms(1000);
     lcd_putc("\f");
 }
@@ -87,7 +87,7 @@ void showMessageTop(char *message){
 void showMessageBottom(char *message){
     lcd_putc("\f");
     lcd_gotoxy(1,2);
-    printf(lcd_putc,message);
+    printf(lcd_putc, "%s",message);
     delay_ms(1000);
     lcd_putc("\f");
 }
@@ -143,10 +143,6 @@ void dht11(int *data_ok){
 
 void main(void){
 
-    char *text = "Iniciando...";
-
-
-    showMessageTop(text);
 
     set_tris_a(0x00);
     output_a(0x00);
@@ -166,7 +162,13 @@ void main(void){
     lcd_putc("\f");
     delay_ms(1500); //sin este tiempo de espera no jala porque no deja arrancar el lcd
     kbd_init();
-//a partir de aqui es el inicio
+
+    char *starting = "Iniciando...";
+    char *ready = "Listo :)";
+    char *optionA = "A.-Comenzar";
+    
+    
+    showMessageTop(starting);
 
     while(true) {
 
@@ -176,10 +178,8 @@ void main(void){
 
         alarm(diaprogramadoc1, mesprogramadoc1, yearprogramadoc1, horaprogramadac1, minprogramadoc1, segprogramadoc1);
 
-        text = "Listo :)";
-        showMessageTop(text);
-        text = "A.-Comenzar";
-        showMessageBottom(text);
+        showMessageTop(ready);
+        showMessageBottom(optionA);
 
         tecla = kbd_getc();
         if (tecla == 'A' ) {

@@ -80,7 +80,7 @@ int getValue(){
     lcd_putc("\f");
     lcd_gotoxy(1,1);
     printf(lcd_putc,"%s", message);
-    
+
 }
 
 void showMessageBottom(char *message){
@@ -93,7 +93,7 @@ void notExist(){
     lcd_putc("\f");
     lcd_gotoxy(1,1);
     printf(lcd_putc,"Upss! incorrecto");
-   
+
 }
 
 void alarm( int diaprogramadoc1,int mesprogramadoc1,int yearprogramadoc1,int horaprogramadac1,int minprogramadoc1,int segprogramadoc1){
@@ -178,6 +178,10 @@ void main(void){
         showMessageBottom(optionA);
 
         tecla = kbd_getc();
+        lcd_gotoxy(1, 2);
+        printf(lcd_putc, "tecla:%s", tecla);
+        delay_ms(1000);
+        
         if (tecla!=0) {
             if (tecla == 'A') {
 
@@ -388,8 +392,8 @@ void main(void){
                 }else{
                     notExist();
                 }
-                
-            }
+
+            }else{notExist();}
         }
     }
 }

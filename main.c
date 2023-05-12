@@ -154,10 +154,16 @@ void main(void){
 
 //        alarm(diaprogramadoc1, mesprogramadoc1, yearprogramadoc1, horaprogramadac1, minprogramadoc1, segprogramadoc1);
 
+        lcd_putc("\f");
+        lcd_gotoxy(2, 1);
+        lcd_putc("inciando");
 
         char tecla = kbd_getc();
 
         if (tecla != 0){
+            lcd_gotoxy(2, 2);
+            lcd_putc(tecla);
+            
             if (tecla != 'C'){
                 delay_ms(1500);
                 lcd_putc("\f");
@@ -171,8 +177,7 @@ void main(void){
             lcd_putc("\f");
             lcd_gotoxy(2, 1);
             lcd_putc("Verificando temperatura y alarmas");
-            lcd_gotoxy(2, 2);
-            lcd_putc(tecla);
+
         }
 
 

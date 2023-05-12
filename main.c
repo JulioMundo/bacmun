@@ -173,16 +173,20 @@ void main(void){
         //temperatura final
 
         alarm(diaprogramadoc1, mesprogramadoc1, yearprogramadoc1, horaprogramadac1, minprogramadoc1, segprogramadoc1);
-
+        
+        delay_ms(1000);
         showMessageTop(ready);
         showMessageBottom(optionA);
 
         tecla = kbd_getc();
-        lcd_gotoxy(1, 2);
-        printf(lcd_putc, "tecla:%s", tecla);
-        delay_ms(1000);
-        
-        if (tecla!=0) {
+
+        if (tecla != 0) {
+
+            lcd_putc("\f");
+            lcd_gotoxy(1, 2);
+            printf(lcd_putc, "tecla:%s", tecla);
+            delay_ms(1000);
+
             if (tecla == 'A') {
 
                 lcd_putc("\f");

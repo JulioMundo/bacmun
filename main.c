@@ -165,6 +165,13 @@ void main(void){
 
     while(true) {
 
+        //para temperatura inicio
+        dht11(&data_ok);
+        //temperatura final
+
+        alarm(diaprogramadoc1, mesprogramadoc1, yearprogramadoc1, horaprogramadac1, minprogramadoc1, segprogramadoc1);
+
+        delay_ms(1000);
 
         tecla = kbd_getc();
 
@@ -172,7 +179,7 @@ void main(void){
 
             lcd_putc("\f");
             lcd_gotoxy(1, 2);
-            printf(lcd_putc, "tecla:%s", tecla);
+            printf(lcd_putc, "tecla:%c", tecla);
             delay_ms(1000);
 
             if (tecla == 'A') {

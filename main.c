@@ -23,6 +23,7 @@ int data_ok = 0;
 float humedad, temperatura;
 int dia=19, mes=04, an=23, dow=5;
 int hora=13,min=30,seg=0;
+
 #include <string.h>
 #include <stdlib.h>//array
 
@@ -75,9 +76,17 @@ int getValue(){
     return  num;
 }
 
-void showMessage(char message[20]){
+void showMessageTop(char *message){
     lcd_putc("\f");
     lcd_gotoxy(1,1);
+    printf(lcd_putc,message);
+    delay_ms(1000);
+    lcd_putc("\f");
+}
+
+void showMessageBottom(char *message){
+    lcd_putc("\f");
+    lcd_gotoxy(1,2);
     printf(lcd_putc,message);
     delay_ms(1000);
     lcd_putc("\f");
@@ -92,7 +101,7 @@ void notExist(){
 }
 
 void alarm( int diaprogramadoc1,int mesprogramadoc1,int yearprogramadoc1,int horaprogramadac1,int minprogramadoc1,int segprogramadoc1){
-    
+
     ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
     ds1307_get_time(hora, min, seg);//obtiene hora actual
 
@@ -134,11 +143,14 @@ void dht11(int *data_ok){
 
 void main(void){
 
-    showMessage("Iniciando...");
+    char *text = "Iniciando...";
+
+
+    showMessageTop(text);
 
     set_tris_a(0x00);
-    output_a(0x00)
-    
+    output_a(0x00);
+
     int diaprogramadoc1,mesprogramadoc1,yearprogramadoc1,horaprogramadac1,minprogramadoc1, segprogramadoc1;
     ds1307_set_date_time(dia,mes,an,dow,hora,min,seg);
     char tecla;
@@ -161,15 +173,17 @@ void main(void){
         //para temperatura inicio
         dht11(&data_ok);
         //temperatura final
-        
+
         alarm(diaprogramadoc1, mesprogramadoc1, yearprogramadoc1, horaprogramadac1, minprogramadoc1, segprogramadoc1);
-        
-        showMessage("Listo :)");
-        showMessage("A.-Comenzar");
+
+        text = "Listo :)";
+        showMessageTop(text);
+        text = "A.-Comenzar";
+        showMessageBottom(text);
 
         tecla = kbd_getc();
         if (tecla == 'A' ) {
-            
+
             lcd_putc("\f");
             lcd_gotoxy(1,1);
             lcd_putc("1=celda 2=temp");
@@ -379,8 +393,8 @@ void main(void){
             }
 
         }//del while true
-        
+
     }
-    
+
 
 }//del if abajo del while

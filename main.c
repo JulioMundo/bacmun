@@ -133,7 +133,6 @@ void main(void){
 
     int diaprogramadoc1,mesprogramadoc1,yearprogramadoc1,horaprogramadac1,minprogramadoc1, segprogramadoc1;
     ds1307_set_date_time(dia,mes,an,dow,hora,min,seg);
-    char tecla;
     char contra[2]; //aqui se guardan las teclas del teclado
 
     //----------------Array to save data about place
@@ -144,12 +143,11 @@ void main(void){
     int direccion=0, opt=0;
     lcd_init();
     lcd_putc("\f");
-    delay_ms(1500); //sin este tiempo de espera no jala porque no deja arrancar el lcd
     kbd_init();
+    delay_ms(1500); //sin este tiempo de espera no jala porque no deja arrancar el lcd
 
 
     while(true) {
-
         //para temperatura inicio
 //        dht11(&data_ok);
         //temperatura final
@@ -157,25 +155,27 @@ void main(void){
 //        alarm(diaprogramadoc1, mesprogramadoc1, yearprogramadoc1, horaprogramadac1, minprogramadoc1, segprogramadoc1);
 
 
-        tecla = kbd_init();
-        
+        char tecla = kbd_getc();
+
         if (tecla != 0){
-            if (tecla == 'C'){
+            if (tecla != 'C'){
                 delay_ms(1500);
                 lcd_putc("\f");
                 lcd_gotoxy(2, 1);
                 lcd_putc("Comenzaste , menu");
             }else{
-                notExist(); 
+                notExist();
             }
         }else{
             delay_ms(1500);
             lcd_putc("\f");
             lcd_gotoxy(2, 1);
             lcd_putc("Verificando temperatura y alarmas");
+            lcd_gotoxy(2, 2);
+            lcd_putc(tecla);
         }
 
-       
+
     }
 
 }

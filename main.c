@@ -76,28 +76,24 @@ int getValue(){
     return  num;
 }
 
-void showMessageTop(char *message){
+ void showMessageTop(char *message){
     lcd_putc("\f");
     lcd_gotoxy(1,1);
-    printf(lcd_putc,"%s", opt);
-    delay_ms(1000);
-    lcd_putc("\f");
+    printf(lcd_putc,"%s", message);
+    
 }
 
 void showMessageBottom(char *message){
     lcd_putc("\f");
     lcd_gotoxy(1,2);
     printf(lcd_putc, "%s",message);
-    delay_ms(1000);
-    lcd_putc("\f");
 }
 
 void notExist(){
     lcd_putc("\f");
     lcd_gotoxy(1,1);
     printf(lcd_putc,"Upss! incorrecto");
-    delay_ms(1000);
-    lcd_putc("\f");
+   
 }
 
 void alarm( int diaprogramadoc1,int mesprogramadoc1,int yearprogramadoc1,int horaprogramadac1,int minprogramadoc1,int segprogramadoc1){
@@ -166,8 +162,8 @@ void main(void){
     char *starting = "Iniciando...";
     char *ready = "Listo :)";
     char *optionA = "A.-Comenzar";
-    
-    
+
+
     showMessageTop(starting);
 
     while(true) {
@@ -182,219 +178,218 @@ void main(void){
         showMessageBottom(optionA);
 
         tecla = kbd_getc();
-        if (tecla == 'A' ) {
+        if (tecla!=0) {
+            if (tecla == 'A') {
 
-            lcd_putc("\f");
-            lcd_gotoxy(1,1);
-            lcd_putc("1=celda 2=temp");
-            lcd_gotoxy(1,2);
-
-            opt = getValue();
-
-            if (opt==1){
                 lcd_putc("\f");
                 lcd_gotoxy(1,1);
-                printf(lcd_putc,"celda a editar?     ");
+                lcd_putc("1=celda 2=temp");
                 lcd_gotoxy(1,2);
+
                 opt = getValue();
 
-                if (opt>0 && opt<=15){
+                if (opt==1){
                     lcd_putc("\f");
                     lcd_gotoxy(1,1);
-                    printf(lcd_putc,"editaras C%d ", opt);
-                    delay_ms(1000);
-                    lcd_putc("\f");
-                    lcd_gotoxy(1,1);
-                    printf(lcd_putc,"1=iniciarCR 2=verCR  ");
+                    printf(lcd_putc,"celda a editar?     ");
                     lcd_gotoxy(1,2);
+                    opt = getValue();
 
-                    switch(getValue()) {
-                        case 1:
-                            lcd_putc("\f"); lcd_gotoxy(1, 1);
-                            lcd_putc("puso inicio    ");
-                            delay_ms(1000);
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("\f");
-                            lcd_putc("iniciando cronometro       ");
-                            delay_ms(1000);
-                            ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
-                            ds1307_get_time(hora, min, seg);//obtiene hora actual
+                    if (opt>0 && opt<=15){
+                        lcd_putc("\f");
+                        lcd_gotoxy(1,1);
+                        printf(lcd_putc,"editaras C%d ", opt);
+                        delay_ms(1000);
+                        lcd_putc("\f");
+                        lcd_gotoxy(1,1);
+                        printf(lcd_putc,"1=iniciarCR 2=verCR  ");
+                        lcd_gotoxy(1,2);
 
-                            array[opt-1][0] = dia;
-                            array[opt-1][1] = mes;
-                            array[opt-1][2] = an;
-                            array[opt-1][3] = hora;
-                            array[opt-1][4] = min;
-                            array[opt-1][5] = seg;
+                        switch(getValue()) {
+                            case 1:
+                                lcd_putc("\f"); lcd_gotoxy(1, 1);
+                                lcd_putc("puso inicio    ");
+                                delay_ms(1000);
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("\f");
+                                lcd_putc("iniciando cronometro       ");
+                                delay_ms(1000);
+                                ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
+                                ds1307_get_time(hora, min, seg);//obtiene hora actual
 
-                            lcd_putc("\f");
-                            lcd_gotoxy(1, 1);
-                            printf(lcd_putc, "fecha:%02u/%02u/20%02u", dia, mes, an);
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "hora: %02u:%02u:%02u", hora, min, seg);
-                            delay_ms(1500);
-                            lcd_putc("\f");
-                            break;
-                        case 2:
-                            lcd_putc("\f");
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("puso ver     ");
-                            delay_ms(1000);
-                            lcd_putc("\f");
-                            lcd_putc("Hora de inicio:      ");
-                            delay_ms(1000);
-                            lcd_putc("\f");
-                            lcd_gotoxy(1, 1);
-                            printf(lcd_putc, "fecha:%02u/%02u/20%02u", array[opt-1][0], array[opt-1][1], array[opt-1][2]);
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "hora: %02u:%02u:%02u", array[opt-1][3],  array[opt-1][4], array[opt-1][5]);
-                            delay_ms(1500);
-                            lcd_putc("\f");
-                            lcd_putc("Hora de actual:      ");
-                            delay_ms(1000);
-                            ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
-                            ds1307_get_time(hora, min, seg);//obtiene hora actual
-                            lcd_putc("\f");
-                            lcd_gotoxy(1, 1);
-                            printf(lcd_putc, "fecha:%02u/%02u/20%02u", dia, mes, an);
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "hora: %02u:%02u:%02u", hora, min, seg);
-                            delay_ms(1500);
-                            lcd_putc("\f");
-                            break;
-                        case 3:
-                            lcd_putc("\f");
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("puso programar     ");
-                            delay_ms(1000);
-                            lcd_putc("\f");
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("dia final:     ");
-                            delay_ms(1000);
-                            diaprogramadoc1 = getValue();
-                            lcd_putc("\f");
-                            delay_ms(1000);
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("dia ingresado:     ");
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "%02u", diaprogramadoc1);
-                            delay_ms(1000);
-                            lcd_putc("\f");
-                            //mes
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("mes final:     ");
-                            delay_ms(1000);
-                            mesprogramadoc1 = getValue();
-                            lcd_putc("\f");
-                            delay_ms(2000);
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("mes ingresado:     ");
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "%02u", mesprogramadoc1);
-                            delay_ms(1000);
-                            lcd_putc("\f");
-                            //anio
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("year final:     ");
-                            delay_ms(1500);
-                            yearprogramadoc1 = getValue();
-                            lcd_putc("\f");
-                            delay_ms(2000);
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("year ingresado:     ");
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "%02u", yearprogramadoc1);
-                            delay_ms(2000);
-                            lcd_putc("\f");
-                            //hora
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("hora final:     ");
-                            delay_ms(1000);
-                            horaprogramadac1 = getValue();
-                            lcd_putc("\f");
-                            delay_ms(1000);
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("hora ingresada:     ");
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "%02u", horaprogramadac1);
-                            delay_ms(1000);
-                            lcd_putc("\f");
-                            //min
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("min final:     ");
-                            delay_ms(1000);
-                            minprogramadoc1 = getValue();
-                            lcd_putc("\f");
-                            delay_ms(1000);
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("min ingresado:     ");
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "%02u", minprogramadoc1);
-                            delay_ms(1000);
-                            lcd_putc("\f");
-                            //seg
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("seg final:     ");
-                            delay_ms(1000);
-                            segprogramadoc1 = getValue();
-                            lcd_putc("\f");
-                            delay_ms(1000);
-                            lcd_gotoxy(1, 1);
-                            lcd_putc("seg ingresado:     ");
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "%02u", segprogramadoc1);
-                            delay_ms(1000);
-                            lcd_putc("\f");
-                            lcd_gotoxy(1, 1);
-                            printf(lcd_putc, "fechp:%02u/%02u/20%02u", diaprogramadoc1, mesprogramadoc1, yearprogramadoc1);
-                            lcd_gotoxy(1, 2);
-                            printf(lcd_putc, "horp: %02u:%02u:%02u", horaprogramadac1, minprogramadoc1, segprogramadoc1);
-                            delay_ms(2000);
-                            break;
-                        default:
-                            notExist();
+                                array[opt-1][0] = dia;
+                                array[opt-1][1] = mes;
+                                array[opt-1][2] = an;
+                                array[opt-1][3] = hora;
+                                array[opt-1][4] = min;
+                                array[opt-1][5] = seg;
+
+                                lcd_putc("\f");
+                                lcd_gotoxy(1, 1);
+                                printf(lcd_putc, "fecha:%02u/%02u/20%02u", dia, mes, an);
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "hora: %02u:%02u:%02u", hora, min, seg);
+                                delay_ms(1500);
+                                lcd_putc("\f");
+                                break;
+                            case 2:
+                                lcd_putc("\f");
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("puso ver     ");
+                                delay_ms(1000);
+                                lcd_putc("\f");
+                                lcd_putc("Hora de inicio:      ");
+                                delay_ms(1000);
+                                lcd_putc("\f");
+                                lcd_gotoxy(1, 1);
+                                printf(lcd_putc, "fecha:%02u/%02u/20%02u", array[opt-1][0], array[opt-1][1], array[opt-1][2]);
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "hora: %02u:%02u:%02u", array[opt-1][3],  array[opt-1][4], array[opt-1][5]);
+                                delay_ms(1500);
+                                lcd_putc("\f");
+                                lcd_putc("Hora de actual:      ");
+                                delay_ms(1000);
+                                ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
+                                ds1307_get_time(hora, min, seg);//obtiene hora actual
+                                lcd_putc("\f");
+                                lcd_gotoxy(1, 1);
+                                printf(lcd_putc, "fecha:%02u/%02u/20%02u", dia, mes, an);
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "hora: %02u:%02u:%02u", hora, min, seg);
+                                delay_ms(1500);
+                                lcd_putc("\f");
+                                break;
+                            case 3:
+                                lcd_putc("\f");
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("puso programar     ");
+                                delay_ms(1000);
+                                lcd_putc("\f");
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("dia final:     ");
+                                delay_ms(1000);
+                                diaprogramadoc1 = getValue();
+                                lcd_putc("\f");
+                                delay_ms(1000);
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("dia ingresado:     ");
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "%02u", diaprogramadoc1);
+                                delay_ms(1000);
+                                lcd_putc("\f");
+                                //mes
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("mes final:     ");
+                                delay_ms(1000);
+                                mesprogramadoc1 = getValue();
+                                lcd_putc("\f");
+                                delay_ms(2000);
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("mes ingresado:     ");
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "%02u", mesprogramadoc1);
+                                delay_ms(1000);
+                                lcd_putc("\f");
+                                //anio
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("year final:     ");
+                                delay_ms(1500);
+                                yearprogramadoc1 = getValue();
+                                lcd_putc("\f");
+                                delay_ms(2000);
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("year ingresado:     ");
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "%02u", yearprogramadoc1);
+                                delay_ms(2000);
+                                lcd_putc("\f");
+                                //hora
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("hora final:     ");
+                                delay_ms(1000);
+                                horaprogramadac1 = getValue();
+                                lcd_putc("\f");
+                                delay_ms(1000);
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("hora ingresada:     ");
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "%02u", horaprogramadac1);
+                                delay_ms(1000);
+                                lcd_putc("\f");
+                                //min
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("min final:     ");
+                                delay_ms(1000);
+                                minprogramadoc1 = getValue();
+                                lcd_putc("\f");
+                                delay_ms(1000);
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("min ingresado:     ");
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "%02u", minprogramadoc1);
+                                delay_ms(1000);
+                                lcd_putc("\f");
+                                //seg
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("seg final:     ");
+                                delay_ms(1000);
+                                segprogramadoc1 = getValue();
+                                lcd_putc("\f");
+                                delay_ms(1000);
+                                lcd_gotoxy(1, 1);
+                                lcd_putc("seg ingresado:     ");
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "%02u", segprogramadoc1);
+                                delay_ms(1000);
+                                lcd_putc("\f");
+                                lcd_gotoxy(1, 1);
+                                printf(lcd_putc, "fechp:%02u/%02u/20%02u", diaprogramadoc1, mesprogramadoc1, yearprogramadoc1);
+                                lcd_gotoxy(1, 2);
+                                printf(lcd_putc, "horp: %02u:%02u:%02u", horaprogramadac1, minprogramadoc1, segprogramadoc1);
+                                delay_ms(2000);
+                                break;
+                            default:
+                                notExist();
+                        }
+                    }else{
+                        notExist();
                     }
+                }else if(opt==2){
+                    lcd_putc("\f");
+                    lcd_gotoxy(1,1);
+                    printf(lcd_putc,"seleccionaste temp");
+                    delay_ms(2000);
+                    data_ok = DHT11_read_data(&humedad, &temperatura);
+
+                    if(data_ok == 1)
+                    {
+                        delay_ms(1500);
+                        lcd_putc("\f");
+                        lcd_gotoxy(1,1);
+                        printf(lcd_putc,"H=%0.1f%%", humedad);
+                        lcd_gotoxy(1,2);
+                        printf(lcd_putc,"T=%0.1fC", temperatura);
+                        lcd_gotoxy(8,2);
+                        printf(lcd_putc,"TP=%02uC", Tempprogramada);
+                    }
+                    else
+                    {
+                        delay_ms(1500);
+                        lcd_putc("\f");
+                        lcd_gotoxy(2,1);
+                        lcd_putc("No Conectado");
+                    }
+                    delay_ms(1400);
+                    TempProgramada = getValue();
+                    lcd_gotoxy(10,2);
+                    printf(lcd_putc,"TP=%02uC", Tempprogramada);
+                    delay_ms(2000);
+                    lcd_putc("\f");
                 }else{
                     notExist();
                 }
-            }else if(opt==2){
-                lcd_putc("\f");
-                lcd_gotoxy(1,1);
-                printf(lcd_putc,"seleccionaste temp");
-                delay_ms(2000);
-                data_ok = DHT11_read_data(&humedad, &temperatura);
-
-                if(data_ok == 1)
-                {
-                    delay_ms(1500);
-                    lcd_putc("\f");
-                    lcd_gotoxy(1,1);
-                    printf(lcd_putc,"H=%0.1f%%", humedad);
-                    lcd_gotoxy(1,2);
-                    printf(lcd_putc,"T=%0.1fC", temperatura);
-                    lcd_gotoxy(8,2);
-                    printf(lcd_putc,"TP=%02uC", Tempprogramada);
-                }
-                else
-                {
-                    delay_ms(1500);
-                    lcd_putc("\f");
-                    lcd_gotoxy(2,1);
-                    lcd_putc("No Conectado");
-                }
-                delay_ms(1400);
-                TempProgramada = getValue();
-                lcd_gotoxy(10,2);
-                printf(lcd_putc,"TP=%02uC", Tempprogramada);
-                delay_ms(2000);
-                lcd_putc("\f");
-            }else{
-                notExist();
+                
             }
-
-        }//del while true
-
+        }
     }
-
-
-}//del if abajo del while
+}

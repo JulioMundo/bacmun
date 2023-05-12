@@ -97,6 +97,12 @@ void main(void)
     char tecla;
     char contra[2]; //aqui se guardan las teclas del teclado
     int direccion=0, opt = 0;
+
+    //----------------Array to save data about place
+    int filas=2, columnas=6;
+    int array[2][6];
+    //---------------------------------------------------
+
     lcd_init();
     kbd_init();
 //a partir de aqui es el inicio

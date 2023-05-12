@@ -163,20 +163,8 @@ void main(void){
     char *ready = "Listo :)";
     char *optionA = "A.-Comenzar";
 
-
-    showMessageTop(starting);
-
     while(true) {
 
-        //para temperatura inicio
-        dht11(&data_ok);
-        //temperatura final
-
-        alarm(diaprogramadoc1, mesprogramadoc1, yearprogramadoc1, horaprogramadac1, minprogramadoc1, segprogramadoc1);
-        
-        delay_ms(1000);
-        showMessageTop(ready);
-        showMessageBottom(optionA);
 
         tecla = kbd_getc();
 

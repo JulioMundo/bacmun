@@ -111,6 +111,7 @@ int getValue(){
 }
 void main(void)
 {
+float temperaturadeseada=0;
     set_tris_a(0x00);
     output_a(0x00);
     int c1diainicial,c1mesinicial,c1anoinicial,c1horainicial,c1minutoinicial,c1segundoinicial,diaprogramadoc1,mesprogramadoc1,yearprogramadoc1,horaprogramadac1,minprogramadoc1, segprogramadoc1;
@@ -130,10 +131,11 @@ set_tris_a(0xFF); //coonfiguras el puerto a como entrada
     delay_ms(1500);
 //a partir de aqui es el inicio
     while(true){
-    
+        
         lcd_gotoxy(1,1);
         lcd_putc("1=celda 2=temp       ");
         delay_ms(50);
+        
         tecla=kbd_getc();
         if(input(PIN_A3)!=1){
         int a;
@@ -146,7 +148,21 @@ set_tris_a(0xFF); //coonfiguras el puerto a como entrada
         a=0;
         lcd_gotoxy(1,1);
         lcd_putc("1=celda 2=temp       ");
+        lcd_gotoxy(9,2);
+        printf(lcd_putc, "->%0.1fC",temperaturadeseada);
         delay_ms(50);
+        if(temperaturadeseada>temperatura){
+        output_low(PIN_A5);
+        output_high(PIN_A4);  
+        }else{
+        if(temperaturadeseada<temperatura){
+         output_low(PIN_A4);
+        output_high(PIN_A5); 
+        }else{if(temperaturadeseada==temperatura){
+         output_low(PIN_A4);
+          output_low(PIN_A5);
+        }}
+        }
         tecla=kbd_getc();
         
         }else{goto salto;}
@@ -349,7 +365,24 @@ set_tris_a(0xFF); //coonfiguras el puerto a como entrada
                     notExist();
                 }
             }else{
-                notExist();
+            if(opt==2){
+            
+            lcd_putc("\f");
+                lcd_gotoxy(1, 1);
+                printf(lcd_putc, "temperatura deseada:");
+               lcd_gotoxy(1,2);
+                temperaturadeseada=getValue();           
+                 lcd_putc("\f");
+                 lcd_gotoxy(1, 1);
+                printf(lcd_putc, "temperatura deseada:");
+                lcd_gotoxy(1, 2);
+                printf(lcd_putc, "%0.1fC",temperaturadeseada);
+                delay_ms(1000);
+                lcd_putc("\f");
+                
+                
+            }
+               
             }
 
         }

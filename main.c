@@ -1,7 +1,8 @@
 #include<18F4550.H>
 #fuses HSPLL, PLL5, USBDIV, NOWDT, CPUDIV1, NOPROTECT, NODEBUG, NOPBADEN, NOLVP, NOVREGEN, NOPUT, NOBROWNOUT//2OMHZ
 #use delay(clock=8MHz, crystal)
-#use fast_io(A)
+#use standard_io(A)
+#define DHT11_PIN PIN_A1
 #use I2C(MASTER, SDA=PIN_B0, SCL=PIN_B1, SLOW)
 #define LCD_ENABLE_PIN  PIN_C0
 #define LCD_RS_PIN      PIN_C1
@@ -11,23 +12,44 @@
 #define LCD_DATA6       PIN_B6
 #define LCD_DATA7       PIN_B7
 #include <lcd.c>
-#include<lcd.c>
-#include"KBD4x4.c"
+#include<DHT11.c>
+#include <stdio.h>
+#include<KBD4x4.c>
 #include<DS1307.c>
 #include <stddef.h>
-#define sgyear 31556936
-#define sgmes 2629743
-#define sgdia 86400
-#define sghora 3600
-#define sgmn 60
-#define constmk 31457299
-#define resto 67328
+#include <string.h>
+#include <stdlib.h>//array
 #define marcatiempodefc11 (marcatiempodefc1)
 int dia=19, mes=04, an=23, dow=5;
 int hora=13,min=30,seg=0;
-long a=0;
-long b=0;
-#include <string.h>
+int data_ok = 0;
+float humedad, temperatura;
+//float humetempe(){
+//delay_ms(1500); //sin este tiempo de espera no jala porque no deja arrancar el lcd
+    // while(true){
+   
+    //  data_ok = DHT11_read_data(&humedad, &temperatura);
+      
+    //  if(data_ok == 1)
+   //   {
+   // delay_ms(1500);
+    //     lcd_putc("\f");
+    //     lcd_gotoxy(1,1);
+    //     printf(lcd_putc,"Hum = %0.1f%%", humedad);
+    //     lcd_gotoxy(1,2);
+     //    printf(lcd_putc,"Tem = %0.1fC", temperatura);
+    //  }
+    //  else
+    //  {
+    //delay_ms(1500);
+    //     lcd_putc("\f");
+    //     lcd_gotoxy(2,1);
+    //     lcd_putc("No Conectado");
+    //  }
+    //  delay_ms(1400);
+  // }
+//}
+
 
 void notExist(){
     lcd_putc("\f");
@@ -102,14 +124,33 @@ void main(void)
     int filas=2, columnas=6;
     int array[2][6];
     //---------------------------------------------------
-
+set_tris_a(0xFF); //coonfiguras el puerto a como entrada
     lcd_init();
     kbd_init();
+    delay_ms(1500);
 //a partir de aqui es el inicio
     while(true){
+    
         lcd_gotoxy(1,1);
         lcd_putc("1=celda 2=temp       ");
+        delay_ms(50);
+        tecla=kbd_getc();
+        if(input(PIN_A3)!=1){
+        int a;
+        delay_ms(1500);
+        lcd_putc("\f");
+        a=1;
+        a=DHT11_read_data(&humedad, &temperatura);
         lcd_gotoxy(1,2);
+        printf(lcd_putc,"T:%0.1fC", temperatura);
+        a=0;
+        lcd_gotoxy(1,1);
+        lcd_putc("1=celda 2=temp       ");
+        delay_ms(50);
+        tecla=kbd_getc();
+        
+        }else{goto salto;}
+        lcd_gotoxy(8,2);
         ds1307_get_date(dia, mes, an, dow);//obtiene fecha actual
         ds1307_get_time(hora, min, seg);//obtiene hora actual
         if(dia==diaprogramadoc1&&mes==mesprogramadoc1&&an==yearprogramadoc1&&hora==horaprogramadac1&&min==minprogramadoc1&&seg==segprogramadoc1){
@@ -127,8 +168,8 @@ void main(void)
             lcd_gotoxy(1,2);
         }
         tecla=kbd_getc();
-        if(tecla!=0){
-
+        if(tecla!=0&&tecla=='A'){ //probablemente se vaya esta condicion
+        salto:
             lcd_putc("\f");
             lcd_gotoxy(1,1);
             lcd_putc("1=celda 2=temp       ");
